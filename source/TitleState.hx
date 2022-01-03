@@ -60,7 +60,7 @@ class TitleState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0);
 
 		#if polymod
-		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		// polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
 		#end
 
 		#if sys
@@ -76,11 +76,22 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 
 		#if windows
+		#if sys
+		ArtemisIntegration.initialize();
+		ArtemisIntegration.setGameState ("title");
+		ArtemisIntegration.resetModName ();
+		ArtemisIntegration.setFadeColor ("#FF3F0000");
+		ArtemisIntegration.setBackgroundColor ("#FF3F0000");
+		// ArtemisIntegration.sendProfileRelativePath ("assets/artemis/fnf-sonicexe.json");
+		#end
 		DiscordClient.initialize();
 
 		Application.current.onExit.add(function(exitCode)
 		{
 			DiscordClient.shutdown();
+			ArtemisIntegration.setBackgroundColor ("#00000000");
+			ArtemisIntegration.setGameState ("closed");
+			ArtemisIntegration.resetModName ();
 		});
 		#end
 
