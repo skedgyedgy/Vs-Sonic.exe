@@ -728,6 +728,8 @@ class PlayState extends MusicBeatState
 		ArtemisIntegration.sendBoyfriendHealth (health);
 		// ArtemisIntegration.setIsPixelStage (isPixelStage);
 		ArtemisIntegration.setBackgroundColor ("#00000000"); // in case there's no set background in the artemis profile, hide the background and just show the overlays over the user's default artemis layout
+		ArtemisIntegration.resetAllFlags ();
+		ArtemisIntegration.autoUpdateControlColors (false);
 		ArtemisIntegration.startSong ();
 
 		if (!PlayStateChangeables.Optimize)
@@ -7020,6 +7022,7 @@ class PlayState extends MusicBeatState
 
 					remove(dad);
 					dad = new Character(20 - 200, -94.75 + 100, 'beast');
+					ArtemisIntegration.setCustomFlag (1, true);
 					add(dad);
 
 					dad.addOffset('idle', -18, 70); // BEAST SONIC LOOKING RIGHT

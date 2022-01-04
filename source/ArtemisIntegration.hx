@@ -4,6 +4,7 @@
 
 package;
 
+import flixel.FlxG;
 import flixel.util.FlxColor;
 import haxe.Json;
 #if sys
@@ -24,7 +25,7 @@ class ArtemisIntegration {
     private static var artemisApiUrl:String = "http://localhost:9696/";
     private static var fnfEndpoints:String = "http://localhost:9696/plugins/84c5243c-5492-4965-940c-4ce006524c06/";
 
-    public static inline var DefaultModName:String = "vanilla"; // if your mod completely replaces vanilla content then change this to your mod name!!!
+    public static inline var DefaultModName:String = "SonicExe"; // if your mod completely replaces vanilla content then change this to your mod name!!!
 
     public static var artemisAvailable:Bool = false;
 
@@ -271,11 +272,11 @@ class ArtemisIntegration {
     public static function autoUpdateControls () {
         if (artemisAvailable) {
             // help i don't know what i'm doing here so i'm playing it extremely safe
-
-            var leftKeybinds:Array<String> = [InputFormatter.getKeyName (FlxG.save.data.leftBind), "Left"];
-            var downKeybinds:Array<String> = [InputFormatter.getKeyName (FlxG.save.data.downBind), "Down"];
-            var upKeybinds:Array<String> = [InputFormatter.getKeyName (FlxG.save.data.upBind), "Up"];
-            var rightKeybinds:Array<String> = [InputFormatter.getKeyName (FlxG.save.data.rightBind), "Right"];
+            
+            var leftKeybinds:Array<String> = [FlxG.save.data.leftBind, "Left"];
+            var downKeybinds:Array<String> = [FlxG.save.data.downBind, "Down"];
+            var upKeybinds:Array<String> = [FlxG.save.data.upBind, "Up"];
+            var rightKeybinds:Array<String> = [FlxG.save.data.rightBind, "Right"];
 
             var controlMap:Map<String, Array<String>> = ["note_left" => leftKeybinds, "note_down" => downKeybinds, "note_up" => upKeybinds, "note_right" => rightKeybinds];
 
