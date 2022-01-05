@@ -324,7 +324,9 @@ class KeyBindMenu extends FlxSubState
         FlxTween.tween(blackBox, {alpha: 0}, 1.1, {ease: FlxEase.expoInOut, onComplete: function(flx:FlxTween){close();}});
         FlxTween.tween(infoText, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
 
+        #if sys
         ArtemisIntegration.autoUpdateControls ();
+        #end
     }
 
 

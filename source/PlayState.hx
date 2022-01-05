@@ -720,6 +720,7 @@ class PlayState extends MusicBeatState
 			stageCheck = SONG.stage;
 		}
 
+		#if sys
 		// tell artemis all the things it needs to know
 		ArtemisIntegration.setStageName (stageCheck);
 		/*if (isStoryMode) ArtemisIntegration.setGameState ("in-game story");
@@ -731,6 +732,7 @@ class PlayState extends MusicBeatState
 		ArtemisIntegration.resetAllFlags ();
 		ArtemisIntegration.autoUpdateControlColors (false);
 		ArtemisIntegration.startSong ();
+		#end
 
 		if (!PlayStateChangeables.Optimize)
 		{
@@ -1828,27 +1830,41 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
+		#if sys
 		ArtemisIntegration.setBfHealthColor ("#FF31B0D1");
+		#end
 		switch (dad.curCharacter)
 		{
 			case 'TDoll':
 				healthBar.createFilledBar(FlxColor.fromRGB(255, 165, 0), FlxColor.fromRGB(49, 176, 209));
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FFFFA500");
+				#end
 			case 'sonic', 'sonic.exe', 'faker', 'sunky':
 				healthBar.createFilledBar(FlxColor.fromRGB(0, 19, 102), FlxColor.fromRGB(49, 176, 209));
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FF001366");
+				#end
 			case 'sonicfun', 'exe', 'sanic':
 				healthBar.createFilledBar(FlxColor.fromRGB(60, 0, 138), FlxColor.fromRGB(49, 176, 209)); // FlxColor.fromRGB(60, 0, 138)
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FF3C008A");
+				#end
 			case 'tails':
 				healthBar.createFilledBar(FlxColor.fromRGB(108, 108, 108), FlxColor.fromRGB(49, 176, 209));
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FF6C6C6C");
+				#end
 			case 'fleetway':
 				healthBar.createFilledBar(FlxColor.fromRGB(255, 255, 0), FlxColor.fromRGB(49, 176, 209));
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FFFFFF00");
+				#end
 			default:
 				healthBar.createFilledBar(0xFFFF0000, FlxColor.fromRGB(49, 176, 209));
+				#if sys
 				ArtemisIntegration.setDadHealthColor ("#FFFF0000");
+				#end
 		}
 
 		// healthBar
@@ -3236,7 +3252,9 @@ class PlayState extends MusicBeatState
 				ana.nearestNote = [];
 				if (curSong != 'black-sun' && cNum == 0) {
 					health -= 0.04;
+					#if sys
 					ArtemisIntegration.sendBoyfriendHealth (health);
+					#end
 				}
 			}
 		}
@@ -3901,7 +3919,9 @@ class PlayState extends MusicBeatState
 	{
 		if (curSong == 'chaos' && dad.curCharacter == 'fleetway-extras3' && dad.animation.curAnim.curFrame == 15 && !dodging) {
 			health = 0;
+			#if sys
 			ArtemisIntegration.sendBoyfriendHealth (health);
+			#end
 		}
 
 		if (isRing)
@@ -3933,13 +3953,17 @@ class PlayState extends MusicBeatState
 					heatlhDrop = 0.0000001; // this is the default drain, imma just add a 0 to it :troll:.
 					health -= heatlhDrop * (500 / ((ccap + 1) / 8) * ((misses +
 						1) / 1.9)); // alright so this is the code for the healthdrain, also i did + 1 cus i you were to multiply with 0.... yea
+						#if sys
 					ArtemisIntegration.sendBoyfriendHealth (health);
+					#end
 					vgblack.alpha = 1 - (health / 2);
 					tentas.alpha = 1 - (health / 2);
 				}
 			default:
 				health -= heatlhDrop;
+				#if sys
 				ArtemisIntegration.sendBoyfriendHealth (health);
+				#end
 		}
 
 		floaty += 0.03;
@@ -4587,7 +4611,6 @@ class PlayState extends MusicBeatState
 
 			#if windows
 			// Game Over doesn't get his own variable because it's only used here
-			ArtemisIntegration.setGameState ("dead");
 			DiscordClient.changePresence("GAME OVER -- "
 				+ cooltext
 				+ " ("
@@ -4602,6 +4625,9 @@ class PlayState extends MusicBeatState
 				+ misses, iconRPC);
 			#end
 
+			#if sys
+			ArtemisIntegration.setGameState ("dead");
+			#end
 			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 		if (FlxG.save.data.resetButton)
@@ -4935,7 +4961,9 @@ class PlayState extends MusicBeatState
 							noteMiss(daNote.noteData, daNote);
 							if (curSong != 'black-sun' && cNum == 0) {
 								health -= 0.3;
+								#if sys
 								ArtemisIntegration.sendBoyfriendHealth (health);
+								#end
 							}
 							staticHitMiss();
 							new FlxTimer().start(.38, function(trol:FlxTimer) // fixed lmao
@@ -4951,7 +4979,9 @@ class PlayState extends MusicBeatState
 							{
 								if (curSong != 'black-sun' && cNum == 0) {
 									health -= 0.075;
+									#if sys
 									ArtemisIntegration.sendBoyfriendHealth (health);
+									#end
 								}
 								vocals.volume = 0;
 								if (theFunne)
@@ -5275,18 +5305,24 @@ class PlayState extends MusicBeatState
 				{
 					if (curSong != 'black-sun') {
 						health -= 0.2;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 				}
 				if (daNote.noteType == 1 || daNote.noteType == 0)
 				{
 					score = -300;
 					combo = 0;
+					#if sys
 					ArtemisIntegration.breakCombo ();
+					#end
 					misses++;
 					if (curSong != 'black-sun') {
 						health -= 0.2;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					ss = false;
 					shits++;
@@ -5298,7 +5334,9 @@ class PlayState extends MusicBeatState
 				{
 					if (curSong != 'black-sun') {
 						health -= 0.06;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 				}
 				if (daNote.noteType == 1 || daNote.noteType == 0)
@@ -5307,7 +5345,9 @@ class PlayState extends MusicBeatState
 					score = 0;
 					if (curSong != 'black-sun') {
 						health -= 0.06;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					ss = false;
 					bads++;
@@ -5323,7 +5363,9 @@ class PlayState extends MusicBeatState
 					goods++;
 					if (health < 2 && curSong != 'black-sun') {
 						health += 0.04;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.75;
@@ -5336,7 +5378,9 @@ class PlayState extends MusicBeatState
 					goods++;
 					if (health < 2 && curSong != 'black-sun') {
 						health += 0.04;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.75;
@@ -5346,7 +5390,9 @@ class PlayState extends MusicBeatState
 				{
 					if (health < 2 && curSong != 'black-sun') {
 						health += 0.1;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 1;
@@ -5356,7 +5402,9 @@ class PlayState extends MusicBeatState
 				{
 					if (health < 2 && curSong != 'black-sun') {
 						health += 0.1;
+						#if sys
 						ArtemisIntegration.sendBoyfriendHealth (health);
+						#end
 					}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 1;
@@ -5963,7 +6011,9 @@ class PlayState extends MusicBeatState
 			if (curSong != 'black-sun' && cNum == 0)
 			{
 				health -= 0.04;
+				#if sys
 				ArtemisIntegration.sendBoyfriendHealth (health);
+				#end
 			}
 			else
 				cNum -= 1;
@@ -5972,8 +6022,11 @@ class PlayState extends MusicBeatState
 				gf.playAnim('sad');
 			}
 			combo = 0;
-			ArtemisIntegration.breakCombo ();
 			misses++;
+
+			#if sys
+			ArtemisIntegration.breakCombo ();
+			#end
 
 			if (daNote != null)
 			{
@@ -6207,14 +6260,18 @@ class PlayState extends MusicBeatState
 					if (popup)
 						popUpScore(note);
 					combo += 1;
+					#if sys
 					ArtemisIntegration.setCombo (combo);
+					#end
 				}
 				else if (!isRing && note.noteType != 3)
 				{
 					if (popup)
 						popUpScore(note);
 					combo += 1;
+					#if sys
 					ArtemisIntegration.setCombo (combo);
+					#end
 				}
 			}
 			else
@@ -7022,8 +7079,11 @@ class PlayState extends MusicBeatState
 
 					remove(dad);
 					dad = new Character(20 - 200, -94.75 + 100, 'beast');
-					ArtemisIntegration.setCustomFlag (1, true);
 					add(dad);
+					
+					#if sys
+					ArtemisIntegration.setCustomFlag (1, true);
+					#end
 
 					dad.addOffset('idle', -18, 70); // BEAST SONIC LOOKING RIGHT
 					dad.addOffset("singUP", 22, 143);

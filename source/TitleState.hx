@@ -76,6 +76,14 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 
 		#if windows
+		DiscordClient.initialize();
+
+		Application.current.onExit.add(function(exitCode)
+		{
+			DiscordClient.shutdown();
+		});
+		#end
+
 		#if sys
 		ArtemisIntegration.initialize();
 		ArtemisIntegration.setGameState ("title");
@@ -84,13 +92,9 @@ class TitleState extends MusicBeatState
 		ArtemisIntegration.setBackgroundColor ("#FF3F0000");
 		ArtemisIntegration.resetAllFlags ();
 		ArtemisIntegration.autoUpdateControls ();
-		// ArtemisIntegration.sendProfileRelativePath ("assets/artemis/fnf-sonicexe.json");
-		#end
-		DiscordClient.initialize();
+		ArtemisIntegration.sendProfileRelativePath ("assets/artemis/fnf-sonicexe.json");
 
-		Application.current.onExit.add(function(exitCode)
-		{
-			DiscordClient.shutdown();
+		Application.current.onExit.add(function(exitCode) {
 			ArtemisIntegration.setBackgroundColor ("#00000000");
 			ArtemisIntegration.setGameState ("closed");
 			ArtemisIntegration.resetModName ();

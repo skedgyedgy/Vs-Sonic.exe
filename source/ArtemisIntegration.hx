@@ -1,18 +1,17 @@
 // artemis integration by skedgyedgy, API ver: 1.2.x
 // https://github.com/skedgyedgy/Artemis.Plugins.FNF/releases
 // modified for kade engine
-
+      
+#if sys
 package;
 
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import haxe.Json;
-#if sys
 import haxe.Http;
 import haxe.io.Path;
 import sys.FileSystem;
 import sys.io.File;
-#end
 
 using StringTools;
 
@@ -30,8 +29,6 @@ class ArtemisIntegration {
     public static var artemisAvailable:Bool = false;
 
     public static function initialize ():Void {
-        
-        #if sys
         if (true) { // TODO: Kade-ify ClientPrefs.enableArtemis
             trace ("attempting to initialize artemis integration...");
             // get the file that says what the local artemis webserver's url is.
@@ -338,11 +335,9 @@ class ArtemisIntegration {
     }
 
     public static function sendProfileRelativePath (directory:String) {
-        #if sys
         if (artemisAvailable) {
             sendProfileAbsolutePath (sys.FileSystem.absolutePath (directory));
         }
-        #end
     }
 
     public static function sendProfileAbsolutePath (directory:String) {
@@ -357,3 +352,4 @@ class ArtemisIntegration {
         trace (error);
     }
 }
+#end
