@@ -4826,6 +4826,20 @@ class PlayState extends MusicBeatState
 						playerStrums.forEach(function(spr:FlxSprite)
 						{
 							spr.alpha = 0.7;
+							#if sys
+							var glowColor:String = "#00000000";
+							switch (daNote.noteData) {
+								case 0:
+									glowColor = "#7FC24B99";
+								case 1:
+									glowColor = "#7F00FFFF";
+								case 2:
+									glowColor = "#7F12FA05";
+								case 3:
+									glowColor = "#7FF9393F";
+							}
+							ArtemisIntegration.triggerFlash (glowColor);
+							#end
 							if (spr.alpha != 0)
 							{
 								new FlxTimer().start(0.01, function(trol:FlxTimer)
