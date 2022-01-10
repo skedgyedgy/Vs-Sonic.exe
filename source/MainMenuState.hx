@@ -70,6 +70,12 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		#if sys
+		ArtemisIntegration.setGameState ("menu");
+		ArtemisIntegration.setBackgroundColor ("#FF3F0000");
+		ArtemisIntegration.toggleFade (false);
+		#end
+
 		PlayStateChangeables.nocheese = true;
 
 		if (!FlxG.sound.music.playing)

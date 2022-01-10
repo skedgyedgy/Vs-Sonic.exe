@@ -87,9 +87,10 @@ class TitleState extends MusicBeatState
 		#if sys
 		ArtemisIntegration.initialize();
 		ArtemisIntegration.setGameState ("title");
+		ArtemisIntegration.setStageName ("");
 		ArtemisIntegration.resetModName ();
-		ArtemisIntegration.setFadeColor ("#FF3F0000");
-		ArtemisIntegration.setBackgroundColor ("#FF3F0000");
+		ArtemisIntegration.setFadeColor ("#FF000000");
+		ArtemisIntegration.setBackgroundColor ("#FF000000");
 		ArtemisIntegration.resetAllFlags ();
 		ArtemisIntegration.autoUpdateControls ();
 		ArtemisIntegration.sendProfileRelativePath ("assets/artemis/fnf-sonicexe.json");
@@ -337,6 +338,12 @@ class TitleState extends MusicBeatState
 			if (FlxG.save.data.flashing)
 				titleText.animation.play('press');
 
+			#if sys
+			ArtemisIntegration.triggerFlash ("#FFFF0000");
+			ArtemisIntegration.setBackgroundColor ("#FF3F0000");
+			ArtemisIntegration.toggleFade (true);
+			#end
+
 			FlxG.camera.flash(FlxColor.RED, 0.2);
 			FlxG.sound.play(Paths.sound('menumomentclick', 'exe'));
 			FlxG.sound.play(Paths.sound('menulaugh', 'exe'));
@@ -361,6 +368,9 @@ class TitleState extends MusicBeatState
 				var returnedData:Array<String> = [];
 
 				var video:MP4Handler = new MP4Handler();
+				#if sys
+				ArtemisIntegration.setStageName ("opening");
+				#end
 				video.playMP4(Paths.video('bothCreditsAndIntro'));
 				video.finishCallback = function()
 				{
@@ -570,6 +580,11 @@ class TitleState extends MusicBeatState
 			remove(ngSpr);
 
 			FlxG.sound.play(Paths.sound('showMoment', 'shared'), .4);
+
+			#if sys
+			ArtemisIntegration.triggerFlash ("#FFFF0000");
+			ArtemisIntegration.setStageName ("titleScreen");
+			#end
 
 			FlxG.camera.flash(FlxColor.RED, 2);
 			remove(credGroup);

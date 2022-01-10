@@ -1,5 +1,5 @@
-// artemis integration by skedgyedgy, API ver: 1.2.x
-// https://github.com/skedgyedgy/Artemis.Plugins.FNF/releases
+// artemis integration by skedgyedgy, API ver: 1.3
+// https://github.com/skedgyedgy/Artemis.Plugins.FNF/releases/tag/1.3
 // modified for kade engine
       
 #if sys
@@ -78,7 +78,6 @@ class ArtemisIntegration {
                 trace ("nope nevermind, it probably isn't installed (directory's not there)");
             }
         }
-        #end
     }
 
     public static function sendBoyfriendHealth (health:Float) {
@@ -238,6 +237,38 @@ class ArtemisIntegration {
         if (artemisAvailable) {
             var request = new haxe.Http (fnfEndpoints + "SetModName");
             request.setPostData (DefaultModName);
+            request.request (true);
+        }
+    }
+
+    public static function setSongName (songName:String) {
+        if (artemisAvailable) {
+            var request = new haxe.Http (fnfEndpoints + "SetSongName");
+            request.setPostData (songName);
+            request.request (true);
+        }
+    }
+
+    public static function setDadName (dadName:String) {
+        if (artemisAvailable) {
+            var request = new haxe.Http (fnfEndpoints + "SetDadName");
+            request.setPostData (dadName);
+            request.request (true);
+        }
+    }
+
+    public static function setBfName (bfName:String) {
+        if (artemisAvailable) {
+            var request = new haxe.Http (fnfEndpoints + "SetBfName");
+            request.setPostData (bfName);
+            request.request (true);
+        }
+    }
+
+    public static function setGfName (gfName:String) {
+        if (artemisAvailable) {
+            var request = new haxe.Http (fnfEndpoints + "SetGfName");
+            request.setPostData (gfName);
             request.request (true);
         }
     }

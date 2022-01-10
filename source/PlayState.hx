@@ -723,11 +723,12 @@ class PlayState extends MusicBeatState
 		#if sys
 		// tell artemis all the things it needs to know
 		ArtemisIntegration.setStageName (stageCheck);
+		ArtemisIntegration.setSongName (songLowercase);
 		/*if (isStoryMode) ArtemisIntegration.setGameState ("in-game story");
 		else ArtemisIntegration.setGameState ("in-game freeplay");*/ //
 		ArtemisIntegration.setGameState ("in-game freeplay");
 		ArtemisIntegration.sendBoyfriendHealth (health);
-		// ArtemisIntegration.setIsPixelStage (isPixelStage);
+		ArtemisIntegration.setIsPixelStage (false);
 		ArtemisIntegration.setBackgroundColor ("#00000000"); // in case there's no set background in the artemis profile, hide the background and just show the overlays over the user's default artemis layout
 		ArtemisIntegration.resetAllFlags ();
 		ArtemisIntegration.autoUpdateControlColors (false);
@@ -2349,6 +2350,10 @@ class PlayState extends MusicBeatState
 		daNoteStatic.animation.addByPrefix('static', 'staticANIMATION', 24, false);
 
 		daNoteStatic.animation.play('static', true);
+		
+		#if sys
+		ArtemisIntegration.triggerCustomEvent ("NOTESTATIC", "#00000000", 0);
+		#end
 
 		shakeCam2 = true;
 
@@ -2372,6 +2377,9 @@ class PlayState extends MusicBeatState
 	function doStaticSign(lestatic:Int = 0, leopa:Bool = true)
 	{
 		trace('static MOMENT HAHAHAH ' + lestatic);
+		#if sys
+		ArtemisIntegration.triggerCustomEvent ("spookyStatic", "#00000000", 0);
+		#end
 		var daStatic:FlxSprite = new FlxSprite(0, 0);
 
 		daStatic.frames = Paths.getSparrowAtlas('daSTAT');
@@ -2434,6 +2442,10 @@ class PlayState extends MusicBeatState
 		add(simplejump);
 
 		FlxG.sound.play(Paths.sound('sppok', 'exe'), 1);
+
+		#if sys
+		ArtemisIntegration.triggerCustomEvent ("sonicSpoop", "#00000000", 0);
+		#end
 
 		new FlxTimer().start(0.2, function(tmr:FlxTimer)
 		{
@@ -2643,10 +2655,18 @@ class PlayState extends MusicBeatState
 
 		daJumpscare.animation.play('jump');
 
+		#if sys
+		ArtemisIntegration.setCustomFlag (7, true);
+		#end
+
 		daJumpscare.animation.finishCallback = function(pog:String)
 		{
 			trace('ended jump');
 			remove(daJumpscare);
+
+			#if sys
+			ArtemisIntegration.setCustomFlag (7, false);
+			#end
 		}
 	}
 
@@ -3415,11 +3435,13 @@ class PlayState extends MusicBeatState
 			if (daSection == 57 && curSong.toLowerCase() == 'endless')
 				SONG.noteStyle = 'majinNOTES';
 
-			if (daSection == 34 && curSong.toLowerCase() == 'you-cant-run')
+			if (daSection == 34 && curSong.toLowerCase() == 'you-cant-run') {
 				SONG.noteStyle = 'pixel';
+			}
 
-			if (daSection == 50 && curSong.toLowerCase() == 'you-cant-run')
+			if (daSection == 50 && curSong.toLowerCase() == 'you-cant-run') {
 				SONG.noteStyle = 'normal';
+			}
 
 			var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
@@ -6495,6 +6517,9 @@ class PlayState extends MusicBeatState
 				case 765:
 					shakeCam = true;
 					FlxG.camera.flash(FlxColor.RED, 4);
+					#if sys
+					ArtemisIntegration.triggerCustomEvent ("EVILSONIC", "#FFFF0000", 2);
+					#end
 				case 1305:
 					cameramove = false;
 					FlxTween.tween(camHUD, {alpha: 0}, 0.3);
@@ -6552,6 +6577,9 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 0.7, {ease: FlxEase.cubeInOut});
 					gofun();
 					SONG.noteStyle = 'majinNOTES';
+					#if sys
+					ArtemisIntegration.setControlColors (["note_left" => "#FF7E57C2", "note_down" => "#FF6A80F0", "note_up" => "#FF7E8BC2", "note_right" => "#FFB957C2"]);
+					#end
 					removeStatics();
 					generateStaticArrows(0, false);
 					generateStaticArrows(1, false);
@@ -6689,6 +6717,11 @@ class PlayState extends MusicBeatState
 
 			if (curStep == 528) // PIXEL MOMENT LAWLALWALAWL
 			{
+				#if sys
+				ArtemisIntegration.setIsPixelStage (true);
+				ArtemisIntegration.autoUpdateControlColors (true);
+				#end
+
 				healthBar.createFilledBar(FlxColor.fromRGB(0, 128, 7), FlxColor.fromRGB(49, 176, 209));
 
 				doStaticSign(0, false);
@@ -6718,6 +6751,11 @@ class PlayState extends MusicBeatState
 			}
 			else if (curStep == 784) // BACK TO NORMAL MF!!!
 			{
+				#if sys
+				ArtemisIntegration.setIsPixelStage (false);
+				ArtemisIntegration.autoUpdateControlColors (false);
+				#end
+
 				healthBar.createFilledBar(FlxColor.fromRGB(0, 19, 102), FlxColor.fromRGB(49, 176, 209));
 
 				doStaticSign(0, false);
@@ -6758,6 +6796,9 @@ class PlayState extends MusicBeatState
 			}
 			else if (curStep == 80 || curStep == 785) // MaliciousBunny did this
 			{
+				#if sys
+				ArtemisIntegration.setCustomFlag (1, true);
+				#end
 				new FlxTimer().start(.085, function(sex:FlxTimer)
 				{
 					if (curStep >= 528 && curStep <= 784)
@@ -6851,6 +6892,10 @@ class PlayState extends MusicBeatState
 				iconP2.visible = false;
 				scoreTxt.visible = false;
 
+				#if sys
+				ArtemisIntegration.setCustomFlag (1, true);
+				#end
+
 				remove(dad);
 				dad = new Character(-150, 330, 'TDollAlt');
 				add(dad);
@@ -6881,6 +6926,11 @@ class PlayState extends MusicBeatState
 				iconP1.visible = true;
 				iconP2.visible = true;
 				scoreTxt.visible = true;
+
+				#if sys
+				ArtemisIntegration.setCustomFlag (1, false);
+				#end
+
 				remove(dad);
 				dad = new Character(-150, 330, 'TDoll');
 				add(dad);
